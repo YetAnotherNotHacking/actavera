@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+    </head>
+    <body>
+        <h1>New Paste</h1>
+        <p>Enter a new paste.</p>
+        <textarea id ="text"></textarea>
+        <input id="password" tpye="text">
+        <select id="ttl">
+            <option value="300">5 minutes</option>
+            <option value="3600">1 hours</option>
+            <option value="86400">1 day</option>
+            <option value="604800">1 week</option>
+            <option value="2419200">1 month</option>
+        </select>
+        <label>
+            <input id="destroy" type="checkbox">destroy
+        </label>
+        <button id="send">send</button>
+        <script src="/static/crypto.js"></script>
+    </body>
+</html>
