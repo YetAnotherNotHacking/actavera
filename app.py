@@ -43,12 +43,28 @@ def view(pid):
 @app.route("/api/paste/<pid>")
 def api_paste(pid):
     row = db.get_paste(pid)
-    if not row: abort(404)
-    return jsonify({
+    if not row: 
+        abort(404)
+
+    created_at = row[4]
+    ttl = row[5]
+    destroy_on_read = bool(row[6])
+    now = int(time.time())
+
+    if now > created_at + ttl:
+        db.delete_paste(pid)
+        abort(404)  # expired according to the user's ttl
+
+    response = {
         "nonce": row[1],
         "ciphertext": row[2],
         "salt": row[3]
-    })
+    }
+
+    if destroy_on_read:
+        db.delete_paste(pid) # once read, delete
+
+    return jsonify(response)
 
 if __name__ == "__main__":
     app.run(host="127.0.0.1", port=9001)
