@@ -12,6 +12,7 @@ def init_db():
     with connect() as c:
         with open("schema.sql") as f:
             c.executescript(f.read())
+        c.commit()
 
 # get a new id for the post
 def new_id():
