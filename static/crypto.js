@@ -76,19 +76,24 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     if (typeof pid !== "undefined") {
-        fetch("/api/paste/" + pid).then(r => r.json()).then(async data => {
-            const out = document.getElementById("output")
+        const btn = document.getElementById("decrypt-btn")
+        const pw = document.getElementById("pwinput")
+        const out = document.getElementById("output")
+
+        btn.onclick = async () => {
             const hash = location.hash.slice(1)
             if (!hash) {
                 out.textContent = "missing key"
                 return
             }
+            const req = await fetch("/api/paste/" + pid)
+            const data = await req.json()
             try {
-                const dec = await decryptAES(prompt("password:"), data.salt, data.nonce, data.ciphertext)
+                const dec = await decryptAES(pw.value, data.salt, data.nonce, data.ciphertext)
                 out.textContent = dec
-            } catch (e) {
-                out.textContent = "failed decryption, bad password?"
+            } catch (_) {
+                out.textContent = "failed decryption"
             }
-        })
+        }
     }
 })
