@@ -1,4 +1,4 @@
-CREATE TABLE pastes (
+CREATE TABLE IF NOT EXISTS pastes (
     id TEXT PRIMARY KEY,
     nonce TEXT,
     ciphertext TEXT,
