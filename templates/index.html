@@ -7,7 +7,8 @@
 <body>
     <h1>New Paste</h1>
     <textarea id="text"></textarea>
-    <input id="password" type="text">
+    <input id="password" type="password">
+    <button id="showpw">show</button>
     <select id="ttl">
         <option value="300">5 minutes</option>
         <option value="3600">1 hour</option>
@@ -20,5 +21,11 @@
     <div id="result"></div>
     <button id="copy" style="display:none;">copy</button>
     <script src="/static/crypto.js"></script>
+    <script>
+        document.getElementById("showpw").onclick = () => {
+            const p = document.getElementById("password")
+            p.type = p.type === "password" ? "text" : "password"
+        }
+    </script>
 </body>
 </html>
