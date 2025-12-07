@@ -5,5 +5,6 @@ CREATE TABLE IF NOT EXISTS pastes (
     salt TEXT,
     created_at INTEGER,
     ttl INTEGER,
-    destroy_on_read INTEGER
+    destroy_on_read INTEGER,
+    public INTEGER DEFAULT 0
 );
