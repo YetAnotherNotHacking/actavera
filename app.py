@@ -28,11 +28,12 @@ def upload():
     ciphertext = data.get("ciphertext")
     ttl = int(data.get('ttl', 0))
     destroy = bool(data.get('destroy_on_read', False))
+    salt = data.get("salt")
     if not nonce or not ciphertext or ttl <=0:
         abort(400) # malformed data
     pid = db.new_id()
     print(f"Registered new paste: {pid}")
-    db.insert_paste(pid, nonce, ciphertext, ttl, destroy)
+    db.insert_paste(pid, nonce, ciphertext, ttl, destroy, salt)
     return jsonify({"id": pid})
 
 @app.route("/paste/<pid>")
