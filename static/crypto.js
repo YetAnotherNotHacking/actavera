@@ -67,6 +67,11 @@ document.addEventListener("DOMContentLoaded", () => {
             const link = base + "/paste/" + j.id + "#" + r.salt
             document.getElementById("result").innerText = 
                 "Link: " + link + "\nPassword: " + pwd
+            document.getElementById("result").innerText = 
+                "Link: " + link + "\nPassword: " + pwd
+            const copy = document.getElementById("copy")
+            copy.style.display = "inline-block"
+            copy.onclick = () => navigator.clipboard.writeText(link)
         }
     }
 
@@ -82,7 +87,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 const dec = await decryptAES(prompt("password:"), data.salt, data.nonce, data.ciphertext)
                 out.textContent = dec
             } catch (e) {
-                out.textContent = "bad password"
+                out.textContent = "failed decryption, bad password?"
             }
         })
     }
