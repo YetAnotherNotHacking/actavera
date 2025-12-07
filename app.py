@@ -5,6 +5,8 @@ import db
 app = Flask(__name__)
 db.init_db()
 
+app.config['MAX_CONTENT_LENGTH'] = 2 * 1024 * 1024 # limit 2mb of text per submission via flask
+
 # routes:
 # /
 # main index, a simple client to make a new paste
