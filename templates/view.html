@@ -1,14 +1,21 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="utf-8">
-        <link rel="stylesheet" href="/static/style.css">
-    </head>
-    <body>
-        <div id="output"></div>
-        <script>
-            var pid = "{{ pid }}";
-        </script>
-        <script src="/static/crypto.js"></script>
-    </body>
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div id="decrypt-box">
+        <h1>View Paste</h1>
+        <input id="pwinput" type="password" placeholder="password">
+        <button id="decrypt-btn">decrypt</button>
+    </div>
+
+    <div id="output" style="margin-top:20px;"></div>
+
+    <script>
+        var pid = "{{ pid }}";
+    </script>
+    <script src="/static/crypto.js"></script>
+</body>
 </html>
