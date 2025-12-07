@@ -30,7 +30,7 @@ def insert_paste(id, nonce, ciphertext, ttl, destroy, salt):
 # very simple get paste by id
 def get_paste(id):
     with connect() as c:
-        row = c.execute('SELECT id, nonce, ciphertext, created_at, ttl, destroy_on_read FROM pastes WHERE id=?', (id,)).fetchone()
+        row = c.execute('SELECT id, nonce, ciphertext, salt, created_at, ttl, destroy_on_read FROM pastes WHERE id=?', (id,)).fetchone()
         return row
 
 # very simple delete paste
