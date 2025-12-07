@@ -32,6 +32,17 @@ input[type="text"] {
     font-family: monospace;
 }
 
+input[type="password"] {
+    width: 100%;
+    border: 1px solid #ff8800;
+    background: #414141;
+    color: #ffffff;
+    padding: 5px;
+    margin-top: 10px;
+    font-family: monospace;
+}
+
+
 select {
     margin-top: 10px;
     border: 1px solid #000;
