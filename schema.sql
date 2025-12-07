@@ -6,3 +6,4 @@ CREATE TABLE IF NOT EXISTS pastes (
     ttl INTEGER,
     destroy_on_read INTEGER
 );
+ALTER TABLE pastes ADD COLUMN salt TEXT; -- needed for new encryption method
