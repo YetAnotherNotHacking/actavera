@@ -5,7 +5,7 @@ import base64
 
 # easy connect function
 def connect():
-    return sqlite.connect('pastes.db') # probably would be remote in a real production, TODO: make this configurable by the host
+    return sqlite3.connect('pastes.db') # probably would be remote in a real production, TODO: make this configurable by the host
 
 # init db, just reading and running the schema.sql
 def init_db():
