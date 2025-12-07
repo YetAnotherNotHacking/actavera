@@ -40,6 +40,15 @@ def upload():
 def view(pid):
     return render_template('view.html', pid=pid)
 
+@app.route("/api/paste/<pid>")
+def api_paste(pid):
+    row = db.get_paste(pid)
+    if not row: abort(404)
+    return jsonify({
+        "nonce": row[1],
+        "ciphertext": row[2],
+        "salt": row[3]
+    })
 
 if __name__ == "__main__":
     app.run(host="127.0.0.1", port=9001)
