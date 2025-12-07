@@ -16,7 +16,7 @@ def init_db():
 
 # get a new id for the post
 def new_id():
-    return base64.urlsafe_base64encode(secrets.token_bytes(16)).decode().rstrip("=")
+    return base64.urlsafe_b64encode(secrets.token_bytes(16)).decode().rstrip("=")
 
 # very very simple insert paste function, automatically inserting the current time into the time value
 def insert_paste(id, nonce, ciphertext, ttl, destroy, salt):
