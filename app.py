@@ -39,5 +39,6 @@ def upload():
 def view(pid):
     return render_template('view.html', pid=pid)
 
+
 if __name__ == "__main__":
-    app.run()
+    app.run(host="127.0.0.1", port=9001)
