@@ -63,7 +63,8 @@ document.addEventListener("DOMContentLoaded", () => {
             })
 
             const j = await resp.json()
-            const link = "/paste/" + j.id + "#" + r.salt
+            const base = location.origin
+            const link = base + "/paste/" + j.id + "#" + r.salt
             document.getElementById("result").innerText = 
                 "Link: " + link + "\nPassword: " + pwd
         }
