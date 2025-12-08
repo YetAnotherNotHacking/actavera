@@ -43,17 +43,30 @@ document.addEventListener("DOMContentLoaded", () => {
     if (send) {
         send.onclick = async () => {
             const text = document.getElementById("text").value
-            const pwd = document.getElementById("password").value
+            const pub = document.getElementById("public").checked
             const ttl = document.getElementById("ttl").value
             const destroy = document.getElementById("destroy").checked
 
-            const r = await encryptAES(pwd, text)
-            const payload = {
-                nonce: r.iv,
-                ciphertext: r.ct,
-                ttl: ttl,
-                destroy_on_read: destroy,
-                salt: r.salt
+            let payload
+
+            if (pub) {
+                payload = {
+                    public: true,
+                    plaintext: text,
+                    ttl: ttl,
+                    destroy_on_read: destroy
+                }
+            } else {
+                const pwd = document.getElementById("password").value
+                const r = await encryptAES(pwd, text)
+                payload = {
+                    nonce: r.iv,
+                    ciphertext: r.ct,
+                    ttl: ttl,
+                    destroy_on_read: destroy,
+                    salt: r.salt,
+                    public: false
+                }
             }
 
             const resp = await fetch("/upload", {
@@ -64,36 +77,55 @@ document.addEventListener("DOMContentLoaded", () => {
 
             const j = await resp.json()
             const base = location.origin
-            const link = base + "/paste/" + j.id + "#" + r.salt
-            document.getElementById("result").innerText = 
-                "Link: " + link + "\nPassword: " + pwd
-            document.getElementById("result").innerText = 
-                "Link: " + link + "\nPassword: " + pwd
-            const copy = document.getElementById("copy")
-            copy.style.display = "inline-block"
-            copy.onclick = () => navigator.clipboard.writeText(link)
+
+            if (pub) {
+                const link = base + "/paste/" + j.id
+                const res = document.getElementById("result")
+                res.innerText = "Link: " + link
+                const copy = document.getElementById("copy")
+                copy.style.display = "inline-block"
+                copy.onclick = () => navigator.clipboard.writeText(link)
+            } else {
+                const pwd = document.getElementById("password").value
+                const link = base + "/paste/" + j.id + "#" + payload.salt
+                const res = document.getElementById("result")
+                res.innerText = "Link: " + link + "\nPassword: " + pwd
+                const copy = document.getElementById("copy")
+                copy.style.display = "inline-block"
+                copy.onclick = () => navigator.clipboard.writeText(link)
+            }
         }
     }
 
     if (typeof pid !== "undefined") {
+        const box = document.getElementById("decrypt-box")
         const btn = document.getElementById("decrypt-btn")
         const pw = document.getElementById("pwinput")
         const out = document.getElementById("output")
 
-        btn.onclick = async () => {
-            const hash = location.hash.slice(1)
-            if (!hash) {
-                out.textContent = "missing key"
-                return
-            }
+        ;(async () => {
             const req = await fetch("/api/paste/" + pid)
             const data = await req.json()
-            try {
-                const dec = await decryptAES(pw.value, data.salt, data.nonce, data.ciphertext)
-                out.textContent = dec
-            } catch (_) {
-                out.textContent = "failed decryption"
+
+            if (data.public) {
+                box.style.display = "none"
+                out.textContent = data.ciphertext
+                return
             }
-        }
+
+            btn.onclick = async () => {
+                const hash = location.hash.slice(1)
+                if (!hash) {
+                    out.textContent = "missing key"
+                    return
+                }
+                try {
+                    const dec = await decryptAES(pw.value, data.salt, data.nonce, data.ciphertext)
+                    out.textContent = dec
+                } catch (_) {
+                    out.textContent = "failed decryption"
+                }
+            }
+        })()
     }
 })
