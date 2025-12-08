@@ -47,7 +47,7 @@ def upload():
         abort(400)
     pid = db.new_id()
     print(f"Registered new paste: {pid}")
-    db.insert_paste(pid, nonce, ciphertext, ttl, destroy, salt)
+    db.insert_paste(pid, nonce, ciphertext, ttl, destroy, salt, public)
     return jsonify({"id": pid})
 
 @app.route("/paste/<pid>")
