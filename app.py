@@ -16,6 +16,17 @@ subprocess.Popen([
     "--HiddenServicePort", "80 127.0.0.1:9001"
 ])
 
+hostname_file = os.path.join(hs_dir, "hostname")
+onion = None
+while not onion:
+    try:
+        with open(hostname_file, "r") as f:
+            onion = f.read().strip()
+    except:
+        time.sleep(0.2)
+
+print(f"Onion adress is: {onion}")
+
 app = Flask(__name__)
 db.init_db()
 
