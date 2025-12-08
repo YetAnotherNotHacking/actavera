@@ -19,11 +19,11 @@ def new_id():
     return base64.urlsafe_b64encode(secrets.token_bytes(16)).decode().rstrip("=")
 
 # very very simple insert paste function, automatically inserting the current time into the time value
-def insert_paste(id, nonce, ciphertext, ttl, destroy, salt):
+def insert_paste(id, nonce, ciphertext, ttl, destroy, salt, public):
     with connect() as c:
         c.execute(
-            'INSERT INTO pastes (id, nonce, ciphertext, salt, created_at, ttl, destroy_on_read) VALUES (?, ?, ?, ?, ?, ?, ?)',
-            (id, nonce, ciphertext, salt, int(time.time()), ttl, 1 if destroy else 0)
+            'INSERT INTO pastes (id, nonce, ciphertext, salt, created_at, ttl, destroy_on_read, public) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
+            (id, nonce, ciphertext, salt, int(time.time()), ttl, 1 if destroy else 0, 1 if public else 0)
         )
         c.commit()
 
