@@ -25,30 +25,35 @@ def index():
 def upload():
     data = request.get_json()
     if not data:
-        abort(400) # no data
-    nonce = data.get("nonce")
-    ciphertext = data.get("ciphertext")
-    ttl = int(data.get('ttl', 0))
-    destroy = bool(data.get('destroy_on_read', False))
-    salt = data.get("salt")
+        abort(400)
+    ttl = int(data.get("ttl", 0))
+    destroy = bool(data.get("destroy_on_read", False))
     public = bool(data.get("public", False))
-    if not nonce or not ciphertext or ttl <=0:
-        abort(400) # malformed data
-    # submission safety, very important!!!
-    if not isinstance(nonce, str) or len(nonce) > 400:
-        abort(400)
-    if not isinstance(ciphertext, str) or len(ciphertext) > 5_000_000:
-        abort(400)
-    if not isinstance(salt, str) or len(salt) > 200:
-        abort(400)
     if ttl < 1 or ttl > 2419200:
         abort(400)
-    if not isinstance(public, bool):
-        abort(400)
+    if public:
+        plaintext = data.get("plaintext")
+        if not isinstance(plaintext, str) or len(plaintext) == 0:
+            abort(400)
+        nonce = ""
+        ciphertext = plaintext
+        salt = ""
+    else:
+        nonce = data.get("nonce")
+        ciphertext = data.get("ciphertext")
+        salt = data.get("salt")
+        if not nonce or not ciphertext or not salt:
+            abort(400)
+        if not isinstance(nonce, str) or len(nonce) > 400:
+            abort(400)
+        if not isinstance(ciphertext, str) or len(ciphertext) > 5_000_000:
+            abort(400)
+        if not isinstance(salt, str) or len(salt) > 200:
+            abort(400)
     pid = db.new_id()
-    print(f"Registered new paste: {pid}")
     db.insert_paste(pid, nonce, ciphertext, ttl, destroy, salt, public)
     return jsonify({"id": pid})
+
 
 @app.route("/paste/<pid>")
 def view(pid):
