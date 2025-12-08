@@ -6,9 +6,16 @@
 </head>
 <body>
     <h1>New Paste</h1>
+
+    <label><input id="public" type="checkbox"> public paste (no encryption)</label>
+
     <textarea id="text"></textarea>
-    <input id="password" type="password">
-    <button id="showpw">show</button>
+
+    <div id="pwbox">
+        <input id="password" type="password">
+        <button id="showpw">show</button>
+    </div>
+
     <select id="ttl">
         <option value="300">5 minutes</option>
         <option value="3600">1 hour</option>
@@ -16,12 +23,23 @@
         <option value="604800">1 week</option>
         <option value="2419200">1 month</option>
     </select>
+
     <label><input id="destroy" type="checkbox">destroy</label>
+
     <button id="send">send</button>
     <div id="result"></div>
     <button id="copy" style="display:none;">copy</button>
+
     <script src="/static/crypto.js"></script>
+
     <script>
+        const pub = document.getElementById("public")
+        const pwbox = document.getElementById("pwbox")
+
+        pub.onchange = () => {
+            pwbox.style.display = pub.checked ? "none" : "block"
+        }
+
         document.getElementById("showpw").onclick = () => {
             const p = document.getElementById("password")
             p.type = p.type === "password" ? "text" : "password"
