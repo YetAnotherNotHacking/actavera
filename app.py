@@ -1,6 +1,20 @@
 from flask import Flask, request, jsonify, render_template, abort
 import time
 import db
+import subprocess
+import os
+
+tor_bin = os.path.join(os.path.dirname(__file__), "tor", "tor")
+tor_data = os.path.join(os.path.dirname(__file__), "tor_data")
+hs_dir = os.path.join(tor_data, "hs")
+os.makedirs(hs_dir, exist_ok=True)
+
+subprocess.Popen([
+    tor_bin,
+    "--DataDirectory", tor_data,
+    "--HiddenServiceDir", hs_dir,
+    "--HiddenServicePort", "80 127.0.0.1:9001"
+])
 
 app = Flask(__name__)
 db.init_db()
