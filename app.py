@@ -63,6 +63,7 @@ def api_paste(pid):
     created_at = row[4]
     ttl = row[5]
     destroy_on_read = bool(row[6])
+    public = bool(row[7])
     now = int(time.time())
 
     if now > created_at + ttl:
@@ -72,7 +73,8 @@ def api_paste(pid):
     response = {
         "nonce": row[1],
         "ciphertext": row[2],
-        "salt": row[3]
+        "salt": row[3],
+        "public": public
     }
 
     if destroy_on_read:
