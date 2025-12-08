@@ -31,6 +31,7 @@ def upload():
     ttl = int(data.get('ttl', 0))
     destroy = bool(data.get('destroy_on_read', False))
     salt = data.get("salt")
+    public = bool(data.get("public", False))
     if not nonce or not ciphertext or ttl <=0:
         abort(400) # malformed data
     # submission safety, very important!!!
@@ -41,6 +42,8 @@ def upload():
     if not isinstance(salt, str) or len(salt) > 200:
         abort(400)
     if ttl < 1 or ttl > 2419200:
+        abort(400)
+    if not isinstance(public, bool):
         abort(400)
     pid = db.new_id()
     print(f"Registered new paste: {pid}")
