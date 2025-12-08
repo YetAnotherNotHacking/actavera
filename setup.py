@@ -27,6 +27,8 @@ data_dir = os.path.join(base, "tor_data")
 hs_dir = os.path.join(data_dir, "hs")
 os.makedirs(hs_dir, exist_ok=True)
 
+os.chmod(hs_dir, 0o700)
+
 env = os.environ.copy()
 env["LD_LIBRARY_PATH"] = tor_dir
 
