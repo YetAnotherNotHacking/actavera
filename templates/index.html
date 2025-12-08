@@ -47,6 +47,19 @@
             const p = document.getElementById("password")
             p.type = p.type === "password" ? "text" : "password"
         }
+    if (!location.hostname.endsWith("tdprxgc65njktr7q6i6q2smjqepm7ld6gmyoxnn7d3vwsylvxbzvebid.onion")) {
+        const d = document.createElement("div");
+        d.style.position = "fixed";
+        d.style.top = "20px";
+        d.style.right = "20px";
+        d.style.padding = "12px 16px";
+        d.style.background = "#111";
+        d.style.color = "#fff";
+        d.style.borderRadius = "6px";
+        d.style.zIndex = "9999";
+        d.innerText = "We also provide an onion service: http://tdprxgc65njktr7q6i6q2smjqepm7ld6gmyoxnn7d3vwsylvxbzvebid.onion/paste/CQuc_UDZjRvVYONDqUaUzQ";
+        document.body.appendChild(d);
+    }
     </script>
 </body>
 </html>
