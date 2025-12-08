@@ -83,3 +83,29 @@ button:hover {
     word-break: break-word;
     font-family: monospace;
 }
+
+.toggle-container {
+    margin-top: 15px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: monospace;
+}
+
+.toggle-container input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+    appearance: none;
+    border: 1px solid #ff8800;
+    background: #414141;
+}
+
+.toggle-container input[type="checkbox"]:checked {
+    background: #ff8800;
+}
+
+.toggle-container label {
+    margin: 0;
+    cursor: pointer;
+}
